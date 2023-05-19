@@ -1,6 +1,7 @@
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const webpack = require('webpack');
+const path = require('path');
 
 
 const config = ({ filename, input, library, output, production }) => {
@@ -16,6 +17,19 @@ const config = ({ filename, input, library, output, production }) => {
     }
 
     return {
+        cache: false,
+        devServer: {
+            client: {
+                overlay: false,
+                progress: true
+            },
+            compress: true,
+            historyApiFallback: true,
+            hot: true,
+            https: true,
+            open: true,
+            static: './dist'
+        },
         entry: {
             [(filename || 'app') + (production ? '.min' : '')]: input
         },

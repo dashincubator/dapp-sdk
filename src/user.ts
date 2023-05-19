@@ -126,7 +126,7 @@ const session: { clear: () => void, end: () => void, identity: Identity, regener
         session.clear();
     },
     regenerate: async (): Promise<boolean> => {
-        let account = await client.getWalletAccount();
+        let account = await client.wallet.getAccount();
 
         session.clear();
         session.wallet = {
@@ -138,10 +138,12 @@ const session: { clear: () => void, end: () => void, identity: Identity, regener
     },
     start: async (options: Object = {}): Promise<boolean> => {
         if (!client) {
+            //@ts-ignore
             client = api.client.connect(Object.assign(options, {
-                apps: await apps.all(),
+                // apps: await apps.all(),
                 wallet: options.wallet || { mnemonic: await config.get('mnemonic', false) || null }
             }));
+
             config.set('mnemonic', client.wallet.exportWallet());
         }
 

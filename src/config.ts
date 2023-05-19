@@ -3,7 +3,8 @@ import dot from '@esportsplus/dot';
 
 
 let bucket: string = 'config',
-    data: object = {};
+    data: object = {},
+    temp = false;
 
 
 const clear = () => {
@@ -18,6 +19,11 @@ const del = (key: string): void => {
 const get = async (key: string, value: any = null): Promise<any> => {
     if (!has(key) && typeof value === 'function') {
         set(key, await value());
+    }
+
+    if (temp === false) {
+        data = (await local.get(bucket)) || {};
+        temp = true;
     }
 
     value = dot.get(data, key) || value;
@@ -39,12 +45,6 @@ const set = (key: string, value: any): void => {
 };
 
 const useOptions = local.useOptions;
-
-
-// Sync `data` with local storage
-(async () => {
-    data = (await local.get(bucket)) || {};
-})();
 
 
 export default { clear, delete: del, get, has, set, useOptions };
