@@ -13,18 +13,28 @@ const apps = {
     },
     get: async (app: string, register: () => Promise<Object | string>): Promise<string> => {
         return await config.get(`apps.${app}.contractId`, async () => {
-            let contract: Object | string = await register();
+            let contract = await register(),
+                id = '';
 
             if (typeof contract === 'string') {
                 contract = await api.contract.get(client, contract) as Object;
             }
 
+            if ('toJSON' in contract) {
+                id = contract.toJSON().dataContract['$id'];
+            }
+
+            if (!id) {
+                // @ts-ignore
+                id = contract.dataContract['$id'];
+            }
+
             client.getApps().set(app, {
                 contract,
-                contractId: contract.dataContract.id
+                contractId: id
             });
 
-            return contract.dataContract.id.toString();
+            return id;
         });
     }
 };
@@ -140,7 +150,7 @@ const session: { clear: () => void, end: () => void, identity: Identity, regener
         if (!client) {
             //@ts-ignore
             client = api.client.connect(Object.assign(options, {
-                // apps: await apps.all(),
+                apps: await apps.all(),
                 wallet: options.wallet || { mnemonic: await config.get('mnemonic', false) || null }
             }));
 

@@ -7,10 +7,13 @@ const register = async ({ platform }: Client, definition: Object, identity: Iden
         result = await platform.dpp.dataContract.validate(contract);
 
     if (!result.isValid()) {
-        throw result.errors[0];
+        for (let i = 0; i < result.errors.length; i++) {
+            console.error(result.errors[i].toString());
+        }
+        throw new Error('Contract is not valid');
     }
 
-    return await platform.contracts.broadcast(contract, identity)
+    return await platform.contracts.publish(contract, identity)
         .catch((e: Error) => console.error('Something went wrong:\n', e));
 };
 

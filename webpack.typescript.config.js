@@ -26,7 +26,7 @@ const config = ({ filename, input, library, output, production }) => {
             compress: true,
             historyApiFallback: true,
             hot: true,
-            https: true,
+            // https: true,
             open: true,
             static: './dist'
         },

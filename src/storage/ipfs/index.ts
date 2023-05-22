@@ -21,7 +21,11 @@ async function connect(): Promise<void> {
 const cid = async (data: Upload['data']) => {
     await connect();
 
-    return node.add(data, { 'only-hash': true });
+    if (data instanceof File) {
+        data = await data.text();
+    }
+
+    return (await node.add(data, { 'only-hash': true })).cid.toString();
 };
 
 const upload = async (data: Upload['data'], { compress, encrypt, secret }: Upload['options'] = {}): Promise<string> => {

@@ -1,5 +1,5 @@
 import { local } from './storage';
-import dot from '@esportsplus/dot';
+import dot from '@src/dot';
 
 
 let bucket: string = 'config',

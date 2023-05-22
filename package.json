@@ -1,9 +1,8 @@
 {
     "author": "ICJR",
     "dependencies": {
-        "@esportsplus/dot": "^0.0.3",
         "browser-image-compression": "^2.0.2",
-        "dash": "^3.24.4",
+        "dash": "^3.24.3",
         "ipfs-core": "*",
         "localforage": "^1.10.0"
     },

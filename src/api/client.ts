@@ -11,6 +11,9 @@ const connect = (options: Object = {}) => {
 
     if (testnet) {
         options.network = 'testnet';
+        options.wallet.unsafeOptions = {
+            skipSynchronizationBeforeHeight: 700000
+        };
     }
 
     return new Dash.Client(options);

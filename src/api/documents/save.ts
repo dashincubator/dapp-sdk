@@ -55,6 +55,11 @@ const save = async ({ platform }: Client, documents: Document[] | Document, iden
             batch.replace.push(replace);
         }
         else {
+            // TODO: Upgrade
+            if (locator === 'sdk.notary') {
+                data = { cid: data.cid };
+            }
+
             batch.create.push( await platform.documents.create(locator, identity, data) );
         }
     }

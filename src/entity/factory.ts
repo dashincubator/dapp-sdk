@@ -1,6 +1,6 @@
 import type { Entity } from '@entity/types';
 import type { Object } from '@src/types';
-import dot from '@esportsplus/dot';
+import dot from '@src/dot';
 import user from '@src/user';
 
 

@@ -1,15 +1,17 @@
 import type { Object } from '@src/types';
-import audio from './audio';
-import comment from './comment';
-import gallery from './gallery';
-import image from './image';
-import video from './video';
+// import audio from './audio';
+// import comment from './comment';
+// import gallery from './gallery';
+// import image from './image';
+import notary from './notary';
+// import video from './video';
 import user from '@src/user';
 
 
-let apps: Object = { audio, comment, gallery, image, video },
+let apps: Object = { notary },
     definitions: Object = {},
     methods: Object = {};
+
 
 for (let key in apps) {
     definitions = Object.assign(definitions, apps[key].definitions);
@@ -18,10 +20,10 @@ for (let key in apps) {
 
 
 // 'contract' ID should be manually defined once platform is released on mainnet
-const register = async (): Promise<void> => {
+const register = async () => {
     let contract = '';
 
-    await user.apps.get('sdk', async (): Promise<Object | string> => {
+    return await user.apps.get('sdk', async (): Promise<Object | string> => {
         if (contract) {
             return contract;
         }
