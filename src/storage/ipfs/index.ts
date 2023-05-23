@@ -8,18 +8,21 @@ import * as IPFS from 'ipfs-core';
 let node: any;
 
 
+type NodeOptions = Parameters< typeof IPFS['create'] >[0];
+
+
 // TODO: Use Dash Platform IPFS host once available
-async function connect(): Promise<void> {
+async function connect(options: NodeOptions): Promise<void> {
     if (node) {
         return;
     }
 
-    node = await IPFS.create();
+    node = await IPFS.create(options);
 };
 
 
-const cid = async (data: Upload['data']) => {
-    await connect();
+const cid = async (data: Upload['data'], { node }: { node?: NodeOptions }) => {
+    await connect(node);
 
     if (data instanceof File) {
         data = await data.text();
@@ -28,10 +31,10 @@ const cid = async (data: Upload['data']) => {
     return (await node.add(data, { 'only-hash': true })).cid.toString();
 };
 
-const upload = async (data: Upload['data'], { compress, encrypt, secret }: Upload['options'] = {}): Promise<string> => {
+const upload = async (data: Upload['data'], { compress, encrypt, node, secret }: Upload['options'] & { node?: NodeOptions } = {}): Promise<string> => {
     let cid: string = '';
 
-    await connect();
+    await connect(node);
 
     if (Array.isArray(data)) {
         if (encrypt) {
@@ -68,7 +71,7 @@ const upload = async (data: Upload['data'], { compress, encrypt, secret }: Uploa
         cid = ( await node.add(data) ).cid.toString();
     }
 
-    return `https://ipfs.io/ipfs/${cid}`;
+    return cid;
 };
 
 const uploadable = (value: any): boolean => {
