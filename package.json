@@ -1,34 +1,23 @@
 {
     "author": "ICJR",
     "dependencies": {
-        "browser-image-compression": "^2.0.2",
-        "dash": "^3.24.3",
-        "ipfs-core": "*",
-        "localforage": "^1.10.0"
+        "@esportsplus/validation": "^0.2.39",
+        "@esportsplus/web-storage": "^0.1.30",
+        "dash": "^3.24.11"
     },
-    "description": "Dash dApp SDK",
     "devDependencies": {
-        "node-polyfill-webpack-plugin": "^2.0.1",
-        "npm-run-all": "^4.1.5",
-        "ts-loader": "^9.4.2",
-        "tsc-alias": "^1.8.6",
-        "tsconfig-paths-webpack-plugin": "^4.0.1",
-        "typescript": "^5.0.4",
-        "webpack": "^5.83.1",
-        "webpack-cli": "^5.1.1",
-        "webpack-dev-server": "^4.15.0"
+        "@esportsplus/webpack": "^0.1.8"
     },
-    "name": "@dash-incubator/dapp-sdk",
-    "main": "./build/index.js",
-    "private": false,
+    "name": "dapp-sdk",
+    "private": true,
     "scripts": {
-        "build": "run-s build:ts && build:web",
-        "build:ts": "run-s tsc && tsc-alias",
-        "build:web": "webpack --config webpack.typescript.config.js --env=filename=dapp --env=input=%INIT_CWD%/src/index.ts --env=output=%INIT_CWD%/dist --env=production=false",
-        "serve": "webpack serve --config webpack.typescript.config.js --env=filename=dapp --env=input=%INIT_CWD%/src/index.ts --env=output=%INIT_CWD%/dist --env=production=false",
-        "-": "-"
+        "build": "tsc && tsc-alias",
+        "-": "-",
+        "prepare": "npm run build",
+        "prepublishOnly": "npm run build",
+        "--": "--",
+        "sandbox:build": "webpack build --env=production=true",
+        "sandbox:dev": "webpack serve --env=production=false"
     },
-    "types": "./build/index.d.ts",
-    "unpkg": "./dist/dapp.min.js",
-    "version": "0.14.13"
+    "version": "0.0.1"
 }

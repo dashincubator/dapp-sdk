@@ -56,3 +56,16 @@ Lookup Dash platform name
 
 ### `user.name.register(name)`
 Registers new Dash platform name
+
+----
+
+## TODO: If there's room for the following tasks replace the features in legacy directory
+- Replace config with direct reads from indexedDB
+- Replace storage implementation entirely
+- Remove dot.ts ( conflicts with the whole point of typescript )
+- Integrate popular IPFS service provider API's
+  - DCG will eventually add IPFS to platform, until then we need a decentralized storage solution
+- Use an input validation package to return user friendly errors instead of throwing errors during document submissions
+  - Platform currently just throws an exception when input is invalid
+  - Exceptions kill the application ( they are blocking in JS meaning the entire app will just break if you don't catch the exception )
+  - If an input validation package is used, user friendly errors can be shown to users ( ex: username must contain x, y, z )
